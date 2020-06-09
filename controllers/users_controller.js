@@ -68,7 +68,7 @@ module.exports.createSession = function (request, response) {
 }
 
 
-module.exports.signOut = function (request, response) {
+module.exports.destroySession = function (request, response) {
     response.cookie("user_id", "");
     return response.redirect("/users/sign-in");
 }
