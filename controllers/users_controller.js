@@ -1,7 +1,7 @@
 const User = require("../models/user");
 
 module.exports.profile = function (request, response) {
-    return response.render("user_profile", { title: "Welcome" });
+    return response.render("user_profile", { title: "Home", name: "Welcome", email: "none" });
 }
 
 module.exports.comment = function (request, response) {
@@ -65,4 +65,10 @@ module.exports.createSession = function (request, response) {
         }
 
     })
+}
+
+
+module.exports.signOut = function (request, response) {
+    response.cookie("user_id", "");
+    return response.redirect("/users/sign-in");
 }

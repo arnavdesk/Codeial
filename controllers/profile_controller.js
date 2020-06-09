@@ -10,10 +10,10 @@ module.exports.view = function (request, response) {
     User.findById(request.cookies.user_id, function (err, user) {
         if (err) {
             console.log("Please sign in");
-            return response.redirect("sign-in");
+            return response.redirect("/users/sign-in");
         }
         else {
-            return response.render("user_profile", { title: user.name });
+            return response.render("user_profile", { title: "Home", name: user.name, email: user.email });
         }
     })
 }
