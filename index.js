@@ -2,8 +2,11 @@ const express = require("express");
 const app = express();
 const port = 8000;
 const expressLayouts = require("express-ejs-layouts");
+
+// MongoDB
 const db = require("./config/mongoose");
 
+// Static files
 app.use(express.static("./assets"));
 
 // extract style and scripts into sub pages
@@ -19,6 +22,8 @@ app.use("/", require("./routes"));
 app.set("view engine", "ejs");
 app.set("views", "./views")
 
+// read request
+app.use(express.urlencoded());
 
 app.listen(port, function (err) {
     if (err) {
