@@ -39,5 +39,30 @@ module.exports.create = function (request, response) {
 }
 
 module.exports.createSession = function (request, response) {
-    //todo
+
+    // steps to authenticate 
+    // find the user
+    User.findOne({ email: request.body.email }, function (err, user) {
+        if (err) { console.log("Error in founding user!"); }
+        if (!user) {
+            // handle user not found
+            console.log("User not found!!");
+            return response.redirect("back");
+
+        }
+        else {
+            // user found handle mismatch passwords 
+            if (user.password != request.body.password) {
+                console.log("password is incorrect for " + user.name);
+                return response.redirect("back");
+            }
+            else {
+                // handle session creation
+                console.log("user found")
+                response.cookie("user_id", user.id);
+                return response.redirect("/profile");
+            }
+        }
+
+    })
 }
