@@ -1,7 +1,20 @@
 const User = require("../models/user");
 
 module.exports.profile = function (request, response) {
-    return response.render("user_profile", { title: "Home", name: "Welcome", email: "none" });
+    if (request.cookies.user_id == undefined) {
+        console.log("Please sign in");
+        return response.redirect("/users/sign-in");
+    }
+
+    User.findById(request.cookies.user_id, function (err, user) {
+        if (err) {
+            console.log("Please sign in");
+            return response.redirect("/users/sign-in");
+        }
+        else {
+            return response.render("user_profile", { title: "Home", name: user.name, email: user.email });
+        }
+    })
 }
 
 module.exports.comment = function (request, response) {
@@ -60,7 +73,7 @@ module.exports.createSession = function (request, response) {
                 // handle session creation
                 console.log("user found")
                 response.cookie("user_id", user.id);
-                return response.redirect("/profile");
+                return response.redirect("/users/profile");
             }
         }
 
