@@ -10,9 +10,16 @@ app.use(express.urlencoded());
 // cookie parser
 app.use(cookieParser());
 
-
 // MongoDB
 const db = require("./config/mongoose");
+
+// session-cookie 
+const session = require("express-session");
+
+// passport
+const passport = require("passport");
+const passportLocal = require("./config/passport-local-strategy");
+
 
 // Static files
 app.use(express.static("./assets"));
@@ -24,14 +31,27 @@ app.set("layout extractScripts", true);
 app.use(expressLayouts);
 
 
-
-// Use express router
-app.use("/", require("./routes"));
-
 // set up ejs
 app.set("view engine", "ejs");
 app.set("views", "./views")
 
+app.use(session({
+    name: "Codeial",
+    // ToDo Change this secret before deployment in production-mode
+    secret: "WingadiamLeviosa",
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+        maxAge: (1000 * 60 * 100),
+    }
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+// Use express router
+app.use("/", require("./routes"));
 
 
 app.listen(port, function (err) {
