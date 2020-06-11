@@ -39,9 +39,10 @@ module.exports.create = function (request, response) {
 }
 
 module.exports.createSession = function (request, response) {
-    return response.redirect("/");
+    return response.redirect("/users/profile");
 }
 
 module.exports.destroySession = function (request, response) {
-    //todo
+    request.logout();
+    return response.redirect("/");
 }

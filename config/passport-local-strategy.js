@@ -54,12 +54,26 @@ passport.checkAuthentication = function (request, response, next) {
     }
 }
 
+passport.checkSessionPresent = function (request, response, next) {
+    // if user is signed in then don't go to sign in/up page
+    if (request.isAuthenticated()) {
+        return response.redirect("/users/profile");
+    }
+    else {
+        // if user is not then go
+        return next();
+    }
+}
+
+
 passport.setAuthenticatedUser = function (request, response, next) {
     if (request.isAuthenticated()) {
-        // req.user contains the current signed in user from session cookie and we are just sending in 
+        // request.user contains the current
+        //  signed in user from session cookie and we are just sending in 
         // to user for views
-        response.locals.user = req.user;
+        response.locals.user = request.user;
     }
+    next();
 }
 
 module.exports = passport;
