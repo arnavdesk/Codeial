@@ -12,6 +12,9 @@ router.get("/sign-up", passport.checkSessionPresent, usersController.signUp);
 
 router.post("/create", usersController.create);
 
+router.post("/update", passport.checkAuthentication ,usersController.update);
+
+
 // use passpt as a middleware to auth
 router.post("/create-session", passport.authenticate(
     "local",

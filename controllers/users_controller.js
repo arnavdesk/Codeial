@@ -52,3 +52,19 @@ module.exports.destroySession = function (request, response) {
     request.logout();
     return response.redirect("/");
 }
+
+
+module.exports.update = function(request,response){
+    if(request.query.id==request.user.id){
+        User.findByIdAndUpdate(request.query.id,request.body,function(err,user){
+            if(err){
+                console.log("Error in updation");
+                return response.redirect("back");
+            }
+            return response.redirect("back");
+        })
+    }else{
+        return response.status(401).send("Unauthorized!");
+    }
+    
+}
