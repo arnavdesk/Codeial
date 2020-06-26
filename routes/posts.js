@@ -9,4 +9,6 @@ router.get("/view", passport.checkAuthentication, postController.view);
 
 router.post("/create-post", passport.checkAuthentication, postController.createPost);
 
+router.get("/destroy", passport.checkAuthentication, postController.destroy);
+
 module.exports = router;

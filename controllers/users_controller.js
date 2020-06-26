@@ -1,7 +1,13 @@
 const User = require("../models/user");
 
 module.exports.profile = function (request, response) {
-    return response.render("user_profile", { title: "Welcome" });
+    User.findById(request.query.id, function(err, foundUser){
+        if(err){
+            console.log("error finding user");
+            return response.redirect("back");
+        }
+        return response.render("user_profile", { title: "Welcome", profile_user:foundUser });
+    })
 }
 
 module.exports.comment = function (request, response) {
