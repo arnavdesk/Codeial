@@ -16,6 +16,7 @@ module.exports.createPost = async function (request, response) {
     }
     catch (err) {
         console.log(err);
+        return response.redirect("back");
     }
 
     // Post.create(request.body, function (err, newPost) {
@@ -48,6 +49,7 @@ module.exports.destroy = async function (request, response) {
     }
     catch (err) {
         console.log(err);
+        return response.redirect("back");
     }
 
 

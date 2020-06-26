@@ -33,6 +33,7 @@ module.exports.signUp = function (request, response) {
 
 module.exports.create = async function (request, response) {
     if (request.body["password"] != request.body["confirm-password"]) {
+        request.flash("error","Password and confirm password must be same!");
         console.log("password and confirm password not equal!");
         return response.redirect("back");
     }
@@ -41,9 +42,11 @@ module.exports.create = async function (request, response) {
         let user = await User.findOne({ email: request.body.email });
         if (!user) {
             let newUser = await User.create(request.body);
+            request.flash("success","Welcome to codeial! Please login!");
             console.log("User Created Hurrah!");
             return response.redirect("sign-in");
         } else {
+            request.flash("error","User already exists");
             console.log("User already exists")
             return response.redirect("sign-in");
         }
@@ -70,10 +73,12 @@ module.exports.create = async function (request, response) {
 }
 
 module.exports.createSession = function (request, response) {
+    request.flash("success","Logged In Successfully!");
     return response.redirect("/users/profile?id=" + request.user.id);
 }
 
 module.exports.destroySession = function (request, response) {
+    request.flash("success","You have logged Out!");
     request.logout();
     return response.redirect("/");
 }
@@ -83,6 +88,7 @@ module.exports.update = async function (request, response) {
 
     try {
         if (request.query.id == request.user.id) {
+            request.flash("success","Profile Updated Successfully!");
             let user =  await User.findByIdAndUpdate(request.query.id, request.body);
             return response.redirect("back");
         } else {
@@ -90,7 +96,9 @@ module.exports.update = async function (request, response) {
         }
     }
     catch(err){
+        request.flash("error","Error Updating Profile!");
         console.log(err);
+        return response.redirect("back");
     }
 
 }

@@ -7,9 +7,12 @@
     <title><%=title%></title>
     <%- style %>
     <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
 </head>
 
 <body>
+
+    
 
     <%- include("_header"); %>
 
@@ -18,6 +21,19 @@
     <%- include("_footer"); %>
 
     <%- script %>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+    <script>
+        var sm;
+        var em;
+        <% if(locals.flash.success && flash.success.length>0) {  %>
+            var sm = "<%=flash.success%>";
+        <%}%>
+        <% if(locals.flash.error && flash.error.length>0) {  %>
+            var em = "<%=flash.error%>";
+        <%}%>
+    </script>
+    <script src="/js/layout.js"></script>
+    
 </body>
 
 </html>
