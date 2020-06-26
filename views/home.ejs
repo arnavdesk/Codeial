@@ -3,38 +3,43 @@
 <h1>Codeial / <%=title %></h1>
 
 <% if(locals.user){ %>
-<p> Logged in : <%=user.name%></p>
+    <p> Logged in : <%=user.name%></p>
 <%} else {%>
-<p><a href="users/sign-in">Sign In</a> </p>
+    <p><a href="users/sign-in">Sign In</a> </p>
 <%}%>
 
-<%if(locals.user){%>
+
 <section>
     <h4>
         Posts
     </h4>
-    <form action="/posts/create-post" id="new-post-form" method="POST">
-        <textarea name="content" cols="30" rows="3" placeholder="Whats on your mind?"></textarea>
-        <button type="submit">
+    <%if(locals.user){%>
+        <form action="/posts/create-post" id="new-post-form" method="POST">
+            <textarea name="content" cols="30" rows="3" placeholder="Whats on your mind?" required>
+            </textarea>
+            <button type="submit">
             Post
-        </button>
-    </form>
+            </button>
+        </form>
+    <%}%>
 </section>
+
 <section>
     <h2> Wall :</h2>
     <ul>
-        <% for(const it of posts_list) { %>
-        <li>
-            <div>
-                <div>
-                    <%= it.content%>
-                </div>
-                <div>
-                    <%= it.user.name%>
-                </div>
-            </div>
-        </li>
-        <% }%>
+        <%- include("_post"); -%>
     </ul>
 </section>
-<%}%>
+
+<section>
+    <h2> Friends : </h2>
+    <ul>
+        <% for(user of all_users) { %>
+            <li>
+               <a href="users/profile?id=<%= user._id%>"> <%= user.name %> </a>
+            </li>        
+        <% } %>
+    </ul>
+</section>
+
+<script src="https://kit.fontawesome.com/c2e4f2d141.js" crossorigin="anonymous"></script>

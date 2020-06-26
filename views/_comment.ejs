@@ -1,0 +1,12 @@
+<% for(const ct of it.comment) { %>
+    <li>
+        <div>
+        <%= ct.content%> says <%= ct.user.name%>
+        <%if(locals.user && locals.user.id == ct.user.id){ %>
+            <a href="comments/destroy?id=<%= ct._id %>">
+                <span><i class="fas fa-times"></i></span>
+            </a>
+        <%}%>
+        </div>
+    </li>
+<%}%>
