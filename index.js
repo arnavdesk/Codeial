@@ -39,6 +39,7 @@ const passportLocal = require("./config/passport-local-strategy");
 
 // Static files
 app.use(express.static("./assets"));
+app.use("/uploads",express.static(__dirname+"/uploads"));
 
 // extract style and scripts into sub pages
 app.set("layout extractStyles", true);

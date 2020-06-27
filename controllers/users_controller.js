@@ -1,5 +1,6 @@
 const User = require("../models/user");
-
+const fs = require("fs");
+const path = require("path");
 module.exports.profile = async function (request, response) {
 
     try {
@@ -86,10 +87,28 @@ module.exports.destroySession = function (request, response) {
 
 module.exports.update = async function (request, response) {
 
+    console.log(request.body);
     try {
         if (request.query.id == request.user.id) {
             request.flash("success","Profile Updated Successfully!");
-            let user =  await User.findByIdAndUpdate(request.query.id, request.body);
+            let user =  await User.findById(request.query.id); 
+            User.uploadedAvatar(request,response,function(err){
+                if(err){
+                    console.log("Error : *******Multer Error",err);
+                }
+                else{
+                    console.log(request.file);
+                    user.name = request.body.name;
+                    user.email = request.body.email;
+                    if(request.file){
+                        if(user.avatar){
+                            fs.unlinkSync(path.join(__dirname,"..",user.avatar));
+                        }
+                        user.avatar = User.avatarPath + "/" + request.file.filename;
+                    }
+                    user.save();
+                }
+            })
             return response.redirect("back");
         } else {
             return response.status(401).send("Unauthorized!");
