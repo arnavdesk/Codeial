@@ -1,5 +1,6 @@
 const Post = require("../models/post");
 const Comment = require("../models/Comment");
+const User = require("../models/user");
 
 
 module.exports.view = function (request, response) {
@@ -10,8 +11,19 @@ module.exports.createPost = async function (request, response) {
     request.body.user = request.user._id;
 
     try {
-        let newPost = await Post.create(request.body);
+        let newPostUnP = await Post.create(request.body);
+        let newPost = await newPostUnP.populate("user",'-password').execPopulate();
+        
         console.log("Post Created : " + newPost);
+        console.log(request.header("X-type"));
+        if (request.header("X-type") == "fetch") {
+            return response.status(200).json({
+                data: {
+                    post: newPost
+                },
+                message: "POST CREATED!"
+            });
+        }
         return response.redirect("back");
     }
     catch (err) {
@@ -40,6 +52,16 @@ module.exports.destroy = async function (request, response) {
         if (foundPost.user == request.user.id) {
             foundPost.remove();
             await Comment.deleteMany({ post: request.query.id });
+
+            if (request.header("X-type") == "fetch") {
+                return response.status(200).json({
+                    data: {
+                        id:request.query.id
+                    },
+                    message: "POST DELETED!"
+                });
+            }
+
             return response.redirect("back");
         }
         else {

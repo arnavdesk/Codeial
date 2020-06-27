@@ -8,6 +8,7 @@ module.exports.home = async function (request, response) {
     // populate user of each page
     try {
         let postsList = await Posts.find({})
+            .sort("-createdAt")
             .populate("user")
             .populate({ path: "comment", populate: { path: "user" } });
             

@@ -1,10 +1,10 @@
 <% for(it of posts_list) { %>
-    <li>
+    <li id = "<%=it._id%>"> 
         <div>
             <div>
                 <%= it.content%>
                 <%if(locals.user && locals.user.id == it.user.id){ %>
-                <a href="posts/destroy?id=<%= it._id %>">
+                <a class="delete-post" href="posts/destroy?id=<%= it._id %>">
                     <span><i class="fas fa-times"></i></span>
                 </a>
                 <%}%>    
@@ -26,7 +26,7 @@
             </form>
         <%}%>
 
-        <ul>
+        <ul id="comment-list">
             <%- include('_comment'); -%>
         </ul>
     </li>
