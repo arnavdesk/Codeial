@@ -37,6 +37,9 @@ const passport = require("passport");
 const passportLocal = require("./config/passport-local-strategy");
 const passportJwt = require("./config/passport-jwt-strategy");
 
+// for goolge OAauth-2
+const passportGoogle = require("./config/passport-google-oauth2-strategy");
+
 
 // Static files
 app.use(express.static("./assets"));
