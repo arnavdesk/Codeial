@@ -11,10 +11,12 @@ module.exports.home = async function (request, response) {
             .sort("-createdAt")
             .populate("user")
             .populate({ path: "comment", populate: { path: "user" } });
-            
-        let allUsers = await User.find({});
 
-        return response.render("home", { title: "Home", posts_list: postsList, all_users: allUsers });
+        let allUsers = await User.find({});
+    
+        let us = await User.findOne(request.user).populate("followers").populate("following");
+
+        return response.render("home", { title: "Home", posts_list: postsList, all_users: allUsers, followers :us.followers, following:us.following });
     }
     catch(err){
         console.log("Error : ", err);

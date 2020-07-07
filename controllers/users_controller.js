@@ -5,7 +5,17 @@ module.exports.profile = async function (request, response) {
 
     try {
         let foundUser = await User.findById(request.query.id);
-        return response.render("user_profile", { title: "Welcome", profile_user: foundUser });
+        let doFollow = false;
+        if(request.user && request.user.id!=request.query.id){
+            for (const it of foundUser.followers) {
+                if(request.user.id==it){
+                    doFollow=true;
+                    break;
+                }
+            }
+        }
+        console.log(doFollow);
+        return response.render("user_profile", { title: "Welcome", profile_user: foundUser, doFollow:doFollow });
     }
     catch (err) {
         console.log(err);

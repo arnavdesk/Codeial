@@ -20,9 +20,10 @@ passport.use(new localStrategy({
                 return done(null, false);
             }
             else {
+                console.log(user);
                 return done(null, user);
             }
-        })
+        });
     }
 
 ))

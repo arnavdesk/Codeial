@@ -32,7 +32,7 @@
 </section>
 
 <section>
-    <h2> Friends : </h2>
+    <h2> All users : </h2>
     <ul>
         <% for(user of all_users) { %>
             <li>
@@ -42,6 +42,35 @@
     </ul>
 </section>
 
+<%if(locals.user){%>
+    <section>
+        <h2> followers : </h2>
+        <%if(followers.length==0){%>
+            <h4>None followers</h4>
+        <%}%>
+        <ul>
+            <% for(it of followers) { %>
+                <li>
+                    <a href="users/profile?id=<%= it._id%>"> <%= it.name %> </a>
+                </li>        
+            <% } %>
+        </ul>
+    </section>
+
+    <section>
+        <h2> following : </h2>
+        <%if(following.length==0){%>
+            <h4>None following</h4>
+        <%}%>
+        <ul>
+            <% for(it of following) { %>
+                <li>
+                    <a href="users/profile?id=<%= it._id%>"> <%= it.name %> </a>
+                </li>        
+            <% } %>
+        </ul>
+    </section>
+<%}%>
 
 <script src="https://kit.fontawesome.com/c2e4f2d141.js" crossorigin="anonymous"></script>
 <script src="/js/home.js"></script>
