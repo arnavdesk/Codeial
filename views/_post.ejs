@@ -7,7 +7,10 @@
                 <a class="delete-post" href="posts/destroy?id=<%= it._id %>">
                     <span><i class="fas fa-times"></i></span>
                 </a>
-                <%}%>    
+                <br>
+                <%}%>   
+                <div id="<%=it._id%>" class="post-like">Y</div>
+                <span class="post-like-count"><%= it.likes.length %></span><span> Likes</span> 
             </div>
 
             <div>

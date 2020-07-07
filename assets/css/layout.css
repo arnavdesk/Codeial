@@ -5,3 +5,9 @@ body {
 h1 {
   background-color: red;
 }
+
+.post-like, .comment-like {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}

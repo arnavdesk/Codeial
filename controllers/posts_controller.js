@@ -1,6 +1,7 @@
 const Post = require("../models/post");
 const Comment = require("../models/Comment");
 const User = require("../models/user");
+const Like = require("../models/like");
 
 
 module.exports.view = function (request, response) {
@@ -50,9 +51,13 @@ module.exports.destroy = async function (request, response) {
 
         // .id means string id converted from ObjectID
         if (foundPost.user == request.user.id) {
-            foundPost.remove();
+            
+            await Like.deleteMany({likeable:foundPost._id,onModel:"Post"});
+            // await Like.deleteMany({_id:{$in:foundPost.comment}});
+            await Like.deleteMany({likeable:{$in:foundPost.comment},onModel:"Comment"});
             await Comment.deleteMany({ post: request.query.id });
 
+            foundPost.remove();
             if (request.header("X-type") == "fetch") {
                 return response.status(200).json({
                     data: {
